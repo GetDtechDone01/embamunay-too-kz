@@ -12,7 +12,7 @@ const offices = [
     city: "Astana, Kazakhstan",
     type: "Head Office",
     address: "Business Center EMBAMUNAI, Mangilik El Ave 55/1",
-    phone: "+7 717 2 55 00 00",
+    phone: "+7 926 9769",
     email: "info@embamunai.kz",
     hours: "Mon-Fri: 9:00 AM - 6:00 PM"
   },
