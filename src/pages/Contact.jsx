@@ -6,13 +6,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import ProjectsMap from '../components/contact/ProjectsMap';
 
 const offices = [
   {
     city: "Astana, Kazakhstan",
     type: "Head Office",
     address: "Business Center EMBAMUNAI, Mangilik El Ave 55/1",
-    phone: "+7 926 9769",
+    phone: "+7 926 749 9769",
     email: "info@embamunai.kz",
     hours: "Mon-Fri: 9:00 AM - 6:00 PM"
   },
