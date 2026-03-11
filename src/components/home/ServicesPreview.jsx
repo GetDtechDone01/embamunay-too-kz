@@ -28,7 +28,7 @@ const services = [
     icon: GitBranch,
     title: "Pipeline Construction",
     description: "Design, construction, and maintenance of oil and gas pipeline infrastructure.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80"
+    image: "https://images.unsplash.com/photo-1473621038790-b778b4750efe?w=600&q=80"
   },
   {
     icon: Truck,
