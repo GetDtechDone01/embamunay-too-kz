@@ -11,10 +11,11 @@ export default function Logo({ size = "default" }) {
 
   return (
     <div className="flex items-center gap-3">
-      <img src={LOGO_URL} alt="EMBAMUNAI TOO KZ" className={`${sizes[size]} w-auto object-contain`} />
+      <img src={LOGO_URL} alt="TOO EMBAMUNAY REFINERY" className={`${sizes[size]} w-auto object-contain`} />
       <div className="flex flex-col">
-        <span className="font-bold text-sm tracking-widest uppercase leading-tight">EMBAMUNAI</span>
-        <span className="text-xs tracking-wider text-muted-foreground uppercase">TOO KZ</span>
+        <span className="font-bold text-base tracking-widest uppercase leading-tight">TOO "EMBAMUNAY" REFINERY</span>
+        <span className="text-[10px] tracking-wide text-muted-foreground leading-snug">OKED: Crude oil and associated gas production.</span>
+        <span className="text-[10px] tracking-wide text-muted-foreground leading-snug">BIN: 990140005305.</span>
       </div>
     </div>
   );

@@ -13,15 +13,15 @@ const offices = [
     city: "Astana, Kazakhstan",
     type: "Head Office",
     address: "Business Center EMBAMUNAI, Mangilik El Ave 55/1",
-    phone: "+7 926 749 9769",
+    phone: "+7 960 507 7234",
     email: "info@embamunaitoo.kz",
     hours: "Mon-Fri: 9:00 AM - 6:00 PM"
   },
   {
-    city: "Aadorp, Netherlands",
+    city: "Moscow, Russia",
     type: "European Office",
-    address: "Aadorp almelo overijssel 7611 AG Netherlands",
-    phone: "+31 9701 026 9742",
+    address: "ул. Мира, 2, Новороссийск, Russia",
+    phone: "+7 960 507 7234",
     email: "info@embamunaitoo.kz",
     hours: "Mon-Fri: 8:00 AM - 5:00 PM CET"
   }
@@ -45,7 +45,7 @@ export default function Contact() {
       <section className="relative h-[45vh] min-h-[320px] flex items-center">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80"
+            src="https://www.worldfinance.com/wp-content/uploads/2019/11/Exploration-for-oil-and-gas-is-very-expensive-and-risky.jpg"
             alt="Contact"
             className="w-full h-full object-cover"
           />

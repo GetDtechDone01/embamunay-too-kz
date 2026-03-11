@@ -22,14 +22,14 @@ export default function AboutPreview() {
           >
             <div className="relative rounded-2xl overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=800&q=80"
+                src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80"
                 alt="Oil refinery"
                 className="w-full h-[500px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
             <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground p-6 rounded-2xl shadow-2xl">
-              <div className="text-4xl font-bold">25+</div>
+              <div className="text-4xl font-bold">27+</div>
               <div className="text-sm opacity-80">Years of Excellence</div>
             </div>
           </motion.div>

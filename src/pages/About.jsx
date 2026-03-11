@@ -27,7 +27,7 @@ export default function About() {
       <section className="relative h-[50vh] min-h-[320px] md:h-[60vh] md:min-h-[400px] flex items-center">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1920&q=80"
+            src="https://sunitausa.com/wp-content/uploads/2025/09/oil-gas-storage-processing-infrastructure.webp"
             alt="Oil refinery tanks"
             className="w-full h-full object-cover object-center"
           />
@@ -44,7 +44,7 @@ export default function About() {
               <span className="text-primary font-medium tracking-widest text-sm uppercase">Our Story</span>
             </div>
             <h1 className="text-5xl lg:text-7xl font-display font-bold text-white leading-tight">
-              About <span className="text-primary">EMBAMUNAI</span>
+              About <span className="text-primary">EMBAMUNAY</span>
             </h1>
             <p className="text-white/60 text-lg mt-4 max-w-2xl">
               A quarter century of excellence in oil and gas operations, from the heart of Central Asia to the world.
@@ -75,7 +75,7 @@ export default function About() {
                 className="rounded-2xl w-full h-[400px] object-cover"
               />
               <div className="absolute -bottom-6 -left-6 bg-primary text-primary-foreground rounded-2xl p-6 shadow-xl">
-                <div className="text-3xl font-bold">25+</div>
+                <div className="text-3xl font-bold">27+</div>
                 <div className="text-sm opacity-80">Years of Experience</div>
               </div>
             </div>

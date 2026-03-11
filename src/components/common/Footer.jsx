@@ -79,7 +79,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-white/50 text-sm">+7 926 749 9769</span>
+                <span className="text-white/50 text-sm">+7 960 507 7234</span>
               </div>
               <div className="flex items-start gap-3">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
@@ -91,7 +91,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3">
                 <Globe2 className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-white/50 text-sm">www.embamunaitoo.kz</span>
+                <a href="https://www.embamunaitoo.kz" target="_blank" rel="noopener noreferrer" className="text-white/50 text-sm hover:text-primary transition-colors">www.embamunaitoo.kz</a>
               </div>
             </div>
           </div>
@@ -102,7 +102,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="text-white/30 text-sm">
-            © {new Date().getFullYear()} EMBAMUNAI TOO KZ. All rights reserved.
+            © 2001 EMBAMUNAI TOO KZ. All rights reserved.
           </span>
           <div className="flex gap-6">
             <span className="text-white/30 text-sm hover:text-white/50 cursor-pointer">Privacy Policy</span>

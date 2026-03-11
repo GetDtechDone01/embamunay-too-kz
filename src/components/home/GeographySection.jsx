@@ -7,21 +7,21 @@ const regions = [
     name: "Western Asia",
     countries: ["Kazakhstan", "Uzbekistan", "Turkmenistan"],
     description: "Our headquarters and largest operations hub, serving the heart of Central Asian energy resources.",
-    image: "https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?w=600&q=80",
+    image: "https://www.fuelsandlubes.com/wp-content/uploads/2025/10/Dangote-refinery-to-double-capacity-targeting-global-leadership.webp",
     stats: "4,200+ employees"
   },
   {
     name: "Europe",
     countries: ["Germany", "Poland", "Romania"],
     description: "Strategic European operations providing refinery and pipeline services across the continent.",
-    image: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80",
     stats: "3,800+ employees"
   },
   {
     name: "South America",
     countries: ["Brazil", "Argentina", "Colombia"],
     description: "Expanding presence in South American markets with drilling and exploration services.",
-    image: "https://images.unsplash.com/photo-1619546952812-520e98064a52?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?w=600&q=80",
     stats: "4,000+ employees"
   }
 ];

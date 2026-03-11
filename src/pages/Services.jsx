@@ -32,7 +32,7 @@ const services = [
     title: "Pipeline Construction",
     description: "End-to-end pipeline infrastructure development including design, construction, testing, and ongoing maintenance services.",
     features: ["Pipeline Design & Engineering", "Construction & Welding", "Testing & Commissioning", "Maintenance & Repair"],
-    image: "https://images.unsplash.com/photo-1473621038790-b778b4750efe?w=800&q=80",
+    image: "https://images.fineartamerica.com/images-medium-large-5/pipelines-at-oil-and-gas-refinery-christian-lagerekscience-photo-library.jpg",
   },
   {
     icon: Truck,
@@ -57,7 +57,7 @@ export default function Services() {
       <section className="relative h-[50vh] min-h-[350px] flex items-center">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=1920&q=80"
+            src="https://www.dgi.com/wp-content/uploads/2019/12/bigstock-oil-pumps-at-sunset-sky-backgr-24054653-1.jpg"
             alt="Services"
             className="w-full h-full object-cover"
           />
