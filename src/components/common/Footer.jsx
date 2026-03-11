@@ -84,9 +84,9 @@ export default function Footer() {
               <div className="flex items-start gap-3">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <span className="block text-white/50 text-sm">info@embamunaitoo.kz</span>
-                  <span className="block text-white/50 text-sm">logistics@embamunaitoo.kz</span>
-                  <span className="block text-white/50 text-sm">salesdept@embamunaitoo.kz</span>
+                  <a href="mailto:info@embamunaitoo.kz" target="_blank" rel="noopener noreferrer" className="block text-white/50 text-sm hover:text-primary transition-colors">info@embamunaitoo.kz</a>
+                  <a href="mailto:logistics@embamunaitoo.kz" target="_blank" rel="noopener noreferrer" className="block text-white/50 text-sm hover:text-primary transition-colors">logistics@embamunaitoo.kz</a>
+                  <a href="mailto:salesdept@embamunaitoo.kz" target="_blank" rel="noopener noreferrer" className="block text-white/50 text-sm hover:text-primary transition-colors">salesdept@embamunaitoo.kz</a>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -102,7 +102,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="text-white/30 text-sm">
-            © 2001 EMBAMUNAI TOO KZ. All rights reserved.
+            © 2001 EMBAMUNAY TOO KZ. All rights reserved.
           </span>
           <div className="flex gap-6">
             <span className="text-white/30 text-sm hover:text-white/50 cursor-pointer">Privacy Policy</span>

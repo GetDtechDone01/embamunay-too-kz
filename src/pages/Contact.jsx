@@ -45,7 +45,7 @@ export default function Contact() {
       <section className="relative h-[45vh] min-h-[320px] flex items-center">
         <div className="absolute inset-0">
           <img
-            src="https://www.worldfinance.com/wp-content/uploads/2019/11/Exploration-for-oil-and-gas-is-very-expensive-and-risky.jpg"
+            src="https://img2.chinadaily.com.cn/images/202109/23/614c09e2a310cdd3d80ee85f.jpeg"
             alt="Contact"
             className="w-full h-full object-cover"
           />
