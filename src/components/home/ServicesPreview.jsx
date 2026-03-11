@@ -10,7 +10,7 @@ const services = [
     icon: Drill,
     title: "Drilling Services",
     description: "Advanced drilling technologies for oil and gas wells construction, including directional and horizontal drilling.",
-    image: "https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?w=600&q=80"
+    image: "https://www.hiddenbrains.com/blog/wp-content/uploads/2023/04/Untitled-1200-%C3%97-853-px.png"
   },
   {
     icon: Wrench,
