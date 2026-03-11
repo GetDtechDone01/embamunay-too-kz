@@ -32,7 +32,7 @@ const services = [
     title: "Pipeline Construction",
     description: "End-to-end pipeline infrastructure development including design, construction, testing, and ongoing maintenance services.",
     features: ["Pipeline Design & Engineering", "Construction & Welding", "Testing & Commissioning", "Maintenance & Repair"],
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1473621038790-b778b4750efe?w=800&q=80",
   },
   {
     icon: Truck,
