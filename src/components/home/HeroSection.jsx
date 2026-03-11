@@ -73,8 +73,8 @@ export default function HeroSection() {
               </Button>
             </Link>
             <Link to={createPageUrl('RequestService')}>
-              <Button size="lg" variant="outline" className="h-14 px-8 text-base font-semibold rounded-full border-white/30 text-white hover:bg-white/10 hover:text-white">
-                Request a Quote
+              <Button size="lg" variant="outline" className="h-14 px-8 text-base font-semibold rounded-full border-white/30 text-white hover:bg-white/10 hover:text-white/50">
+                Request our Service
               </Button>
             </Link>
           </motion.div>

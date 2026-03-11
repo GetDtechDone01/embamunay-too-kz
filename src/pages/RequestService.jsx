@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { base44 } from '@/api/base44Client';
-import { Send, CheckCircle, Loader2, LogIn } from 'lucide-react';
+import { Send, CheckCircle, Loader2, LogIn, Paperclip, X } from 'lucide-react';
 import Logo from '../components/common/Logo';
 import { toast } from 'sonner';
 
@@ -50,6 +50,8 @@ export default function RequestService() {
     budget_range: '',
     message: '',
   });
+  const [attachments, setAttachments] = useState([]);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -69,10 +71,25 @@ export default function RequestService() {
     checkAuth();
   }, []);
 
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setAttachments(prev => [...prev, ...files]);
+    e.target.value = '';
+  };
+
+  const removeAttachment = (index) => {
+    setAttachments(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    await base44.entities.ServiceRequest.create(form);
+    let attachmentUrls = [];
+    for (const file of attachments) {
+      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      attachmentUrls.push(file_url);
+    }
+    await base44.entities.ServiceRequest.create({ ...form, attachment_urls: attachmentUrls });
     toast.success('Service request submitted successfully! Our team will contact you soon.');
     setSubmitted(true);
     setSubmitting(false);
@@ -269,6 +286,38 @@ export default function RequestService() {
                   required
                   className="min-h-[150px] rounded-xl"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Attachments</Label>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  multiple
+                  accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full h-12 rounded-xl border-2 border-dashed border-border hover:border-primary/50 flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Paperclip className="w-4 h-4" />
+                  Attach Files or Images (PDF, Word, Excel, Images)
+                </button>
+                {attachments.length > 0 && (
+                  <div className="space-y-1 mt-2">
+                    {attachments.map((file, i) => (
+                      <div key={i} className="flex items-center justify-between bg-secondary rounded-lg px-3 py-2 text-sm">
+                        <span className="text-foreground truncate max-w-xs">{file.name}</span>
+                        <button type="button" onClick={() => removeAttachment(i)} className="ml-2 text-muted-foreground hover:text-destructive flex-shrink-0">
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <Button

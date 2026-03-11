@@ -83,7 +83,7 @@ export default function Layout({ children, currentPageName }) {
 
               {isAuthenticated ? (
                 <Link to={createPageUrl('Dashboard')}>
-                  <Button size="sm" variant="outline" className={`rounded-full h-10 px-4 ${isTransparent ? 'border-white/30 text-white hover:bg-white/10' : ''}`}>
+                  <Button size="sm" variant="outline" className={`rounded-full h-10 px-4 ${isTransparent ? 'border-white/30 text-white hover:bg-white/10 hover:text-white/50' : ''}`}>
                     <User className="w-4 h-4 mr-2" />
                     {user?.full_name?.split(' ')[0] || 'Account'}
                   </Button>
@@ -93,7 +93,7 @@ export default function Layout({ children, currentPageName }) {
                   size="sm"
                   variant="outline"
                   onClick={() => base44.auth.redirectToLogin()}
-                  className={`rounded-full h-10 px-4 ${isTransparent ? 'border-white/30 text-white hover:bg-white/10' : ''}`}
+                  className={`rounded-full h-10 px-4 ${isTransparent ? 'border-white/30 text-white hover:bg-white/10 hover:text-white/50' : ''}`}
                 >
                   <LogIn className="w-4 h-4 mr-2" />
                   Sign In

@@ -14,24 +14,16 @@ const offices = [
     type: "Head Office",
     address: "Business Center EMBAMUNAI, Mangilik El Ave 55/1",
     phone: "+7 926 749 9769",
-    email: "info@embamunai.kz",
+    email: "info@embamunaitoo.kz",
     hours: "Mon-Fri: 9:00 AM - 6:00 PM"
   },
   {
-    city: "Berlin, Germany",
+    city: "Aadorp, Netherlands",
     type: "European Office",
-    address: "Friedrichstraße 123, 10117 Berlin",
-    phone: "+49 30 1234 5678",
-    email: "europe@embamunai.kz",
+    address: "Aadorp almelo overijssel 7611 AG Netherlands",
+    phone: "+31 9701 026 9742",
+    email: "info@embamunaitoo.kz",
     hours: "Mon-Fri: 8:00 AM - 5:00 PM CET"
-  },
-  {
-    city: "São Paulo, Brazil",
-    type: "South America Office",
-    address: "Av. Paulista 1000, Bela Vista",
-    phone: "+55 11 9876 5432",
-    email: "latam@embamunai.kz",
-    hours: "Mon-Fri: 9:00 AM - 6:00 PM BRT"
   }
 ];
 
@@ -79,7 +71,7 @@ export default function Contact() {
       {/* Offices */}
       <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-6 mb-20">
+          <div className="grid md:grid-cols-2 gap-6 mb-20">
             {offices.map((office, i) => (
               <motion.div
                 key={i}
