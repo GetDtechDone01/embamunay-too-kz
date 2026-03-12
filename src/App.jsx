@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
+import Insights from './pages/Insights';
+import ArticleDetail from './pages/ArticleDetail';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -57,6 +59,16 @@ const AuthenticatedApp = () => {
           }
         />
       ))}
+      <Route path="/Insights" element={
+        <LayoutWrapper currentPageName="Insights">
+          <Insights />
+        </LayoutWrapper>
+      } />
+      <Route path="/ArticleDetail/:id" element={
+        <LayoutWrapper currentPageName="Insights">
+          <ArticleDetail />
+        </LayoutWrapper>
+      } />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
