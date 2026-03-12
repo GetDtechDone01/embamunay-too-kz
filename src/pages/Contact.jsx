@@ -10,18 +10,18 @@ import ProjectsMap from '../components/contact/ProjectsMap';
 
 const offices = [
   {
-    city: "Astana, Kazakhstan",
+    city: "Atyrau, Kazakhstan",
     type: "Head Office",
-    address: "Business Center EMBAMUNAI, Mangilik El Ave 55/1",
-    phone: "+7 960 507 7234",
+    address: "060002, ATYRAU REGION, ATYRAU CITY, ST. KAYIRGALI SMAGULOV, 4A Republic of Kazakhstan",
+    phone: "+7 778 679 5570, +7 999 802 9310",
     email: "info@embamunaitoo.kz",
     hours: "Mon-Fri: 9:00 AM - 6:00 PM"
   },
   {
-    city: "Moscow, Russia",
+    city: "Novorossiysk, Russia",
     type: "European Office",
-    address: "ул. Мира, 2, Новороссийск, Russia",
-    phone: "+7 960 507 7234",
+    address: "353901, 14, Portovaya ST, NOVOROSSIYSK, Krasnodar Region, Russia Federation",
+    phone: "+7 778 679 5570, +7 999 802 9310",
     email: "info@embamunaitoo.kz",
     hours: "Mon-Fri: 8:00 AM - 5:00 PM CET"
   }

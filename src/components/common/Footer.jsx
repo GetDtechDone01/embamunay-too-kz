@@ -75,11 +75,11 @@ export default function Footer() {
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-white/50 text-sm">Astana, Kazakhstan<br />Business Center "EMBAMUNAI"</span>
+                <span className="text-white/50 text-sm">"EMBAMUNAY" Head Office - 060002, ATYRAU REGION, ATYRAU CITY, ST. KAYIRGALI SMAGULOV, 4A Republic of Kazakhstan</span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-white/50 text-sm">+7 960 507 7234</span>
+                <span className="text-white/50 text-sm">+7 778 679 5570, +7 999 802 9310</span>
               </div>
               <div className="flex items-start gap-3">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
