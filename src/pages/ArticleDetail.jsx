@@ -53,7 +53,7 @@ export default function ArticleDetail() {
       <div className="min-h-screen flex items-center justify-center pt-20">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-foreground mb-2">Article not found</h2>
-          <Link to={createPageUrl('Insights')}>
+          <Link to="/Insights">
             <Button className="mt-4">Back to Insights</Button>
           </Link>
         </div>
@@ -79,7 +79,7 @@ export default function ArticleDetail() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <Link to={createPageUrl('Insights')}>
+            <Link to="/Insights">
               <Button variant="ghost" className="text-white hover:text-primary mb-4 -ml-4">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Insights

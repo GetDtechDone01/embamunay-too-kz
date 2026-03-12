@@ -116,7 +116,7 @@ export default function Insights() {
                   animate={{ opacity: 1, y: 0 }}
                   className="mb-12"
                 >
-                  <Link to={createPageUrl('ArticleDetail', { id: featuredArticle.id })}>
+                  <Link to={`/ArticleDetail/${featuredArticle.id}`}>
                     <div className="relative h-[450px] rounded-2xl overflow-hidden group cursor-pointer">
                       <img
                         src={featuredArticle.featured_image || 'https://images.unsplash.com/photo-1560969184-10fe8719e047?w=1200&q=80'}
@@ -160,7 +160,7 @@ export default function Insights() {
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
                   >
-                    <Link to={createPageUrl('ArticleDetail', { id: article.id })}>
+                    <Link to={`/ArticleDetail/${article.id}`}>
                       <div className="bg-card rounded-2xl border border-border overflow-hidden group cursor-pointer hover:shadow-lg transition-all">
                         <div className="relative h-48 overflow-hidden">
                           <img
