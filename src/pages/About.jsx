@@ -70,7 +70,7 @@ export default function About() {
             </div>
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=800&q=80"
+                src="https://media.istockphoto.com/id/1412547603/photo/refinery-blue-collar-worker-standing-by-lpg-pipeline-and-checking-gas-production-or.jpg?s=612x612&w=0&k=20&c=AOC0LhQeqFPc98YC7eCuu3hwstKAhaFcI0gWIE3YyZ4="
                 alt="Operations"
                 className="rounded-2xl w-full h-[400px] object-cover"
               />
