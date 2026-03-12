@@ -65,7 +65,7 @@ export default function About() {
                 EMBAMUNAY TOO KZ is dedicated to being the partner of choice for oil and gas companies worldwide. We combine deep technical expertise with cutting-edge technology to deliver drilling, well services, and refinery solutions that exceed expectations.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Headquartered in Astana, Kazakhstan, we have built a global network spanning Western Asia, Europe, and South America, enabling us to serve clients wherever energy opportunities arise. Our commitment to safety, environmental stewardship, and social responsibility guides every project we undertake.
+                Headquartered in Atyrau, Kazakhstan, we have built a global network spanning Western Asia, Europe, and South America, enabling us to serve clients wherever energy opportunities arise. Our commitment to safety, environmental stewardship, and social responsibility guides every project we undertake.
               </p>
             </div>
             <div className="relative">
