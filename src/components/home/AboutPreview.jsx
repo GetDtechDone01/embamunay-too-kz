@@ -45,11 +45,8 @@ export default function AboutPreview() {
               <div className="h-px w-12 bg-primary" />
               <span className="text-primary font-medium tracking-widest text-sm uppercase">About Us</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-display font-bold text-foreground mb-6 leading-tight">
-              Powering the World's <span className="text-primary">Energy Future</span>
-            </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              EMBAMUNAI TOO KZ is a premier oil and gas company headquartered in Kazakhstan, with operations spanning three continents. We specialize in drilling, well services, refinery operations, and pipeline construction, delivering world-class solutions to meet global energy demands.
+              EMBAMUNAY TOO KZ is a premier oil and gas company headquartered in Kazakhstan, with operations spanning three continents. We specialize in drilling, well services, refinery operations, and pipeline construction, delivering world-class solutions to meet global energy demands.
             </p>
 
             <div className="space-y-4 mb-10">
