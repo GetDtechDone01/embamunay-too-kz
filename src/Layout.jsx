@@ -13,6 +13,7 @@ const navLinks = [
   { name: "Home", page: "Home" },
   { name: "About", page: "About" },
   { name: "Services", page: "Services" },
+  { name: "Insights", page: "Insights" },
   { name: "Contact", page: "Contact" },
 ];
 
