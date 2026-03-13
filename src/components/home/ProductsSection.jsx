@@ -24,7 +24,7 @@ const products = [
   },
   {
     name: "LIQUEFIED PETROLEUM GAS",
-    image: "https://media.istockphoto.com/id/1356884480/photo/fuel-gas-station.jpg?s=612x612&w=0&k=20&c=KvhpYLZo8UP-bzO3t5XpJGkUlD2jN_2vHR_Jj3b6y7o="
+    image: "https://grandpetrokaz.kz/wp-content/uploads/2023/03/liquefied-petroleum-gas-tank-high-poly-3d-model-obj-fbx-dxf-stl-blend-dae.jpg"
   },
   {
     name: "KAZAKHSTAN CRUDE OIL (KEBCO)",
@@ -32,15 +32,15 @@ const products = [
   },
   {
     name: "FUEL OIL",
-    image: "https://media.istockphoto.com/id/1297041115/photo/industrial-oil-pipeline-at-sunset.jpg?s=612x612&w=0&k=20&c=VTfp-GDRdq4HLDe0YKWr9fC0Iq4hWBz7j4c8PHI9mLY="
+    image: "https://cdn.images.express.co.uk/img/dynamic/24/590x/1656213_1.jpg"
   },
   {
     name: "CST-180",
-    image: "https://media.istockphoto.com/id/1456321451/photo/electric-vehicle-charging-station-for-electric-cars.jpg?s=612x612&w=0&k=20&c=k0Q0c6e0mxZK3z2lPKb_QkiRj3tYw5xqX3dFZ8DVKPU="
+    image: "https://www.kazpetrogaz.kz/wp-content/uploads/2020/03/about-img-3.jpg"
   },
   {
     name: "BITUMEN 60/70 & 80/100",
-    image: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=400&q=80"
+    image: "https://t3.ftcdn.net/jpg/04/28/79/94/360_F_428799446_jSNkP0dNO8F9RoLyhPksMh0zwQ4aR8o1.jpg"
   },
   {
     name: "JET A1 FUEL",
