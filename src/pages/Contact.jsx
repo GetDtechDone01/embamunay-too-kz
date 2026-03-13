@@ -4,9 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Upload, X } from 'lucide-react';
 import { toast } from 'sonner';
 import ProjectsMap from '../components/contact/ProjectsMap';
+import { base44 } from '@/api/base44Client';
 
 const offices = [
   {
@@ -27,16 +29,63 @@ const offices = [
   }
 ];
 
+const budgetOptions = [
+  "$10,000 - $50,000",
+  "$50,000 - $100,000",
+  "$100,000 - $500,000",
+  "$500,000 - $1,000,000",
+  "$1,000,000 - $5,000,000",
+  "$5,000,000 - $10,000,000",
+  "$10,000,000 - $50,000,000",
+  "$50,000,000 - $100,000,000",
+  "$100,000,000 - $500,000,000"
+];
+
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [uploading, setUploading] = useState(false);
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    email: '', 
+    companyName: '',
+    phone: '',
+    budget: '',
+    subject: '', 
+    message: '',
+    attachment: null
+  });
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      setFormData({ ...formData, attachment: { name: file.name, url: file_url } });
+      toast.success('File uploaded successfully!');
+    } catch (error) {
+      toast.error('Failed to upload file');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     toast.success('Message sent successfully! We will get back to you soon.');
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setFormData({ 
+      name: '', 
+      email: '', 
+      companyName: '',
+      phone: '',
+      budget: '',
+      subject: '', 
+      message: '',
+      attachment: null
+    });
   };
 
   return (
@@ -137,6 +186,45 @@ export default function Contact() {
                   />
                 </div>
               </div>
+              
+              <div className="grid md:grid-cols-2 gap-5">
+                <div className="space-y-2">
+                  <Label>Company Name</Label>
+                  <Input
+                    value={formData.companyName}
+                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                    placeholder="Your Company"
+                    required
+                    className="h-12 rounded-xl"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Phone</Label>
+                  <Input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="+1 234 567 8900"
+                    required
+                    className="h-12 rounded-xl"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Budget</Label>
+                <Select value={formData.budget} onValueChange={(value) => setFormData({ ...formData, budget: value })} required>
+                  <SelectTrigger className="h-12 rounded-xl">
+                    <SelectValue placeholder="Select your budget range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {budgetOptions.map((option) => (
+                      <SelectItem key={option} value={option}>{option}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div className="space-y-2">
                 <Label>Subject</Label>
                 <Input
@@ -147,6 +235,7 @@ export default function Contact() {
                   className="h-12 rounded-xl"
                 />
               </div>
+              
               <div className="space-y-2">
                 <Label>Message</Label>
                 <Textarea
@@ -156,6 +245,37 @@ export default function Contact() {
                   required
                   className="min-h-[150px] rounded-xl"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Attachment (Optional)</Label>
+                <div className="relative">
+                  <input
+                    type="file"
+                    id="file-upload"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                    disabled={uploading}
+                  />
+                  <label
+                    htmlFor="file-upload"
+                    className="flex items-center justify-center h-12 px-4 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
+                  >
+                    <Upload className="w-5 h-5 mr-2 text-muted-foreground" />
+                    <span className="text-muted-foreground">
+                      {uploading ? 'Uploading...' : formData.attachment ? formData.attachment.name : 'Click to upload file'}
+                    </span>
+                  </label>
+                  {formData.attachment && (
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, attachment: null })}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-destructive"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
               </div>
               <Button
                 type="submit"

@@ -1,6 +1,7 @@
 import React from 'react';
 import HeroSection from '../components/home/HeroSection';
 import AboutPreview from '../components/home/AboutPreview';
+import ProductsSection from '../components/home/ProductsSection';
 import ServicesPreview from '../components/home/ServicesPreview';
 import MarketDashboard from '../components/home/MarketDashboard';
 import GeographySection from '../components/home/GeographySection';
@@ -13,6 +14,7 @@ export default function Home() {
       <HeroSection />
       <MarketDashboard />
       <AboutPreview />
+      <ProductsSection />
       <ServicesPreview />
       <GeographySection />
       <SocialResponsibility />
