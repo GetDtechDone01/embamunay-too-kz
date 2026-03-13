@@ -71,21 +71,61 @@ export default function Contact() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    toast.success('Message sent successfully! We will get back to you soon.');
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-    setFormData({ 
-      name: '', 
-      email: '', 
-      companyName: '',
-      phone: '',
-      budget: '',
-      subject: '', 
-      message: '',
-      attachment: null
-    });
+    
+    try {
+      // Prepare email content
+      const emailBody = `
+New Contact Form Submission
+
+Contact Details:
+- Name: ${formData.name}
+- Email: ${formData.email}
+- Company: ${formData.companyName}
+- Phone: ${formData.phone}
+- Budget: ${formData.budget}
+
+Subject: ${formData.subject}
+
+Message:
+${formData.message}
+
+${formData.attachment ? `\nAttachment: ${formData.attachment.url}` : ''}
+      `;
+
+      // Send to info@embamunaitoo.kz
+      await base44.integrations.Core.SendEmail({
+        from_name: "EMBAMUNAY TOO KZ Website",
+        to: "info@embamunaitoo.kz",
+        subject: `New Contact: ${formData.subject}`,
+        body: emailBody
+      });
+
+      // Send to salesdept@embamunaitoo.kz
+      await base44.integrations.Core.SendEmail({
+        from_name: "EMBAMUNAY TOO KZ Website",
+        to: "salesdept@embamunaitoo.kz",
+        subject: `New Contact: ${formData.subject}`,
+        body: emailBody
+      });
+
+      toast.success('Message sent successfully! We will get back to you soon.');
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 3000);
+      setFormData({ 
+        name: '', 
+        email: '', 
+        companyName: '',
+        phone: '',
+        budget: '',
+        subject: '', 
+        message: '',
+        attachment: null
+      });
+    } catch (error) {
+      toast.error('Failed to send message. Please try again.');
+    }
   };
 
   return (
