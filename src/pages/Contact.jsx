@@ -88,39 +88,16 @@ export default function Contact() {
     setSending(true);
     
     try {
-      // Prepare email content
-      const emailBody = `
-New Contact Form Submission
-
-Contact Details:
-- Name: ${formData.name}
-- Email: ${formData.email}
-- Company: ${formData.companyName}
-- Phone: ${formData.phone}
-- Budget: ${formData.budget}
-
-Subject: ${formData.subject}
-
-Message:
-${formData.message}
-
-${formData.attachment ? `\nAttachment: ${formData.attachment.url}` : ''}
-      `;
-
-      // Send to info@embamunaitoo.kz
-      await base44.integrations.Core.SendEmail({
-        from_name: "EMBAMUNAY TOO KZ Website",
-        to: "info@embamunaitoo.kz",
-        subject: `New Contact: ${formData.subject}`,
-        body: emailBody
-      });
-
-      // Send to salesdept@embamunaitoo.kz
-      await base44.integrations.Core.SendEmail({
-        from_name: "EMBAMUNAY TOO KZ Website",
-        to: "salesdept@embamunaitoo.kz",
-        subject: `New Contact: ${formData.subject}`,
-        body: emailBody
+      // Send emails via backend function
+      await base44.functions.invoke('sendContactEmail', {
+        name: formData.name,
+        email: formData.email,
+        companyName: formData.companyName,
+        phone: formData.phone,
+        budget: formData.budget,
+        subject: formData.subject,
+        message: formData.message,
+        attachmentUrl: formData.attachment?.url || null
       });
 
       // Clear form
