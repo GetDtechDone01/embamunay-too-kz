@@ -8,11 +8,11 @@ import { createPageUrl } from '@/utils';
 const products = [
   {
     name: "EN590 ULSD",
-    image: "https://images.unsplash.com/photo-1545670723-196ed0954986?w=400&q=80"
+    image: "https://karachaganakfield.com.kz/wp-content/uploads/2024/08/Diesel-EN590-1-p9tq9bncmpriqabbv0giyg4l47g3brkoo9yrksmsac.jpg"
   },
   {
     name: "D2 DIESEL GAS OIL",
-    image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&q=80"
+    image: "https://alfanarpetroleum.com/wp-content/uploads/2019/08/D2_diesal.jpg"
   },
   {
     name: "UREA FERTILISER",
@@ -20,7 +20,7 @@ const products = [
   },
   {
     name: "D6 VIRGIN FUEL OIL",
-    image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=400&q=80"
+    image: "https://www.ariyancorp.com/wp-content/uploads/2021/03/Automotive-Gas-Oil.jpg"
   },
   {
     name: "LIQUEFIED PETROLEUM GAS",
