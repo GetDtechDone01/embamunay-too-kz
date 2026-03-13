@@ -9,6 +9,8 @@ import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Upload, X } from 'lucide
 import { toast } from 'sonner';
 import ProjectsMap from '../components/contact/ProjectsMap';
 import { base44 } from '@/api/base44Client';
+import { useNavigate } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
 
 const offices = [
   {
@@ -44,6 +46,8 @@ const budgetOptions = [
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ 
     name: '', 
     email: '', 
@@ -73,6 +77,7 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitted(true);
     
     try {
       // Prepare email content
@@ -110,9 +115,14 @@ ${formData.attachment ? `\nAttachment: ${formData.attachment.url}` : ''}
         body: emailBody
       });
 
-      toast.success('Message sent successfully! We will get back to you soon.');
-      setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 3000);
+      // Show thank you message
+      setShowThankYou(true);
+      
+      // Redirect to home after 1 minute
+      setTimeout(() => {
+        navigate(createPageUrl('Home'));
+      }, 60000);
+      
       setFormData({ 
         name: '', 
         email: '', 
@@ -125,8 +135,74 @@ ${formData.attachment ? `\nAttachment: ${formData.attachment.url}` : ''}
       });
     } catch (error) {
       toast.error('Failed to send message. Please try again.');
+      setSubmitted(false);
     }
   };
+
+  if (showThankYou) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/20 to-background px-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-2xl w-full bg-card border border-border rounded-3xl p-12 text-center shadow-2xl"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6"
+          >
+            <CheckCircle className="w-12 h-12 text-primary" />
+          </motion.div>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-4xl font-display font-bold text-foreground mb-4"
+          >
+            Thank You for <span className="text-primary">Reaching Out!</span>
+          </motion.h2>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="text-lg text-muted-foreground mb-6 leading-relaxed"
+          >
+            We truly appreciate you taking the time to contact <span className="font-semibold text-foreground">EMBAMUNAY TOO KZ</span>. 
+            Your message has been successfully received by our team.
+          </motion.p>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="bg-primary/5 border border-primary/20 rounded-2xl p-6 mb-6"
+          >
+            <p className="text-foreground font-medium mb-2">
+              Our dedicated team will review your inquiry and get back to you within the shortest possible time.
+            </p>
+            <p className="text-muted-foreground text-sm">
+              You will be automatically redirected to our homepage in a moment.
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="flex items-center justify-center gap-2 text-sm text-muted-foreground"
+          >
+            <Mail className="w-4 h-4" />
+            <span>Emails sent to: info@embamunaitoo.kz & salesdept@embamunaitoo.kz</span>
+          </motion.div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-20">
