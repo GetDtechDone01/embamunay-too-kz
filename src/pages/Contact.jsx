@@ -88,16 +88,17 @@ export default function Contact() {
     setSending(true);
     
     try {
-      // Send emails via backend function
-      await base44.functions.invoke('sendContactEmail', {
-        name: formData.name,
+      // Save contact submission to database
+      await base44.entities.ContactSubmission.create({
+        full_name: formData.name,
         email: formData.email,
-        companyName: formData.companyName,
+        company_name: formData.companyName,
         phone: formData.phone,
         budget: formData.budget,
         subject: formData.subject,
         message: formData.message,
-        attachmentUrl: formData.attachment?.url || null
+        attachment_url: formData.attachment?.url || null,
+        status: 'new'
       });
 
       // Clear form
