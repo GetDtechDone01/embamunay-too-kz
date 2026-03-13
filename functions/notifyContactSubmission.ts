@@ -3,7 +3,13 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.20';
 Deno.serve(async (req) => {
     try {
         const base44 = createClientFromRequest(req);
+        
+        // Validate webhook signature or add basic validation
         const { submissionData } = await req.json();
+        
+        if (!submissionData) {
+            return Response.json({ error: 'Missing submission data' }, { status: 400 });
+        }
 
         // Prepare email content
         const emailBody = `
