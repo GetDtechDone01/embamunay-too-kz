@@ -24,7 +24,7 @@ const products = [
   },
   {
     name: "LIQUEFIED PETROLEUM GAS",
-    image: "https://images.unsplash.com/photo-1584627862041-ba2e31518511?w=400&q=80"
+    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&q=80"
   },
   {
     name: "KAZAKHSTAN CRUDE OIL (KEBCO)",
