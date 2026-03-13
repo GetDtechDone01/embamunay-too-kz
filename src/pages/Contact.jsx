@@ -78,6 +78,13 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate all required fields
+    if (!formData.name || !formData.email || !formData.companyName || !formData.phone || !formData.budget || !formData.subject || !formData.message) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+    
     setSending(true);
     
     try {
