@@ -24,7 +24,7 @@ const products = [
   },
   {
     name: "LIQUEFIED PETROLEUM GAS",
-    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&q=80"
+    image: "https://media.istockphoto.com/id/1356884480/photo/fuel-gas-station.jpg?s=612x612&w=0&k=20&c=KvhpYLZo8UP-bzO3t5XpJGkUlD2jN_2vHR_Jj3b6y7o="
   },
   {
     name: "KAZAKHSTAN CRUDE OIL (KEBCO)",
@@ -32,11 +32,11 @@ const products = [
   },
   {
     name: "FUEL OIL",
-    image: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=400&q=80"
+    image: "https://media.istockphoto.com/id/1297041115/photo/industrial-oil-pipeline-at-sunset.jpg?s=612x612&w=0&k=20&c=VTfp-GDRdq4HLDe0YKWr9fC0Iq4hWBz7j4c8PHI9mLY="
   },
   {
     name: "CST-180",
-    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=400&q=80"
+    image: "https://media.istockphoto.com/id/1456321451/photo/electric-vehicle-charging-station-for-electric-cars.jpg?s=612x612&w=0&k=20&c=k0Q0c6e0mxZK3z2lPKb_QkiRj3tYw5xqX3dFZ8DVKPU="
   },
   {
     name: "BITUMEN 60/70 & 80/100",
