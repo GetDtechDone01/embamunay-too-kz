@@ -47,6 +47,7 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
+  const [sending, setSending] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ 
     name: '', 
@@ -77,7 +78,7 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
     
     try {
       // Prepare email content
@@ -115,14 +116,7 @@ ${formData.attachment ? `\nAttachment: ${formData.attachment.url}` : ''}
         body: emailBody
       });
 
-      // Show thank you message
-      setShowThankYou(true);
-      
-      // Redirect to home after 1 minute
-      setTimeout(() => {
-        navigate(createPageUrl('Home'));
-      }, 60000);
-      
+      // Clear form
       setFormData({ 
         name: '', 
         email: '', 
@@ -133,9 +127,19 @@ ${formData.attachment ? `\nAttachment: ${formData.attachment.url}` : ''}
         message: '',
         attachment: null
       });
+      
+      // Show thank you message
+      setSending(false);
+      setShowThankYou(true);
+      
+      // Redirect to home after 1 minute
+      setTimeout(() => {
+        navigate(createPageUrl('Home'));
+      }, 60000);
+      
     } catch (error) {
       toast.error('Failed to send message. Please try again.');
-      setSubmitted(false);
+      setSending(false);
     }
   };
 
@@ -396,12 +400,11 @@ ${formData.attachment ? `\nAttachment: ${formData.attachment.url}` : ''}
               <Button
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 rounded-full text-base"
-                disabled={submitted}
+                disabled={sending}
               >
-                {submitted ? (
+                {sending ? (
                   <>
-                    <CheckCircle className="w-5 h-5 mr-2" />
-                    Message Sent!
+                    Sending...
                   </>
                 ) : (
                   <>
