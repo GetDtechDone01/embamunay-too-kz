@@ -16,7 +16,7 @@ const products = [
   },
   {
     name: "UREA FERTILISER",
-    image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&q=80"
+    image: "https://www.turkeydalal.com/wp-content/uploads/2020/08/urea-5-2000x1000.jpg"
   },
   {
     name: "D6 VIRGIN FUEL OIL",
