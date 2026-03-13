@@ -89,7 +89,7 @@ export default function Contact() {
     
     try {
       // Save contact submission to database
-      await base44.entities.ContactSubmission.create({
+      const submissionData = {
         full_name: formData.name,
         email: formData.email,
         company_name: formData.companyName,
@@ -99,6 +99,13 @@ export default function Contact() {
         message: formData.message,
         attachment_url: formData.attachment?.url || null,
         status: 'new'
+      };
+
+      await base44.entities.ContactSubmission.create(submissionData);
+
+      // Send email notifications (don't wait for it to avoid delays)
+      base44.functions.invoke('notifyContactSubmission', { submissionData }).catch(err => {
+        console.error('Failed to send email notification:', err);
       });
 
       // Clear form
