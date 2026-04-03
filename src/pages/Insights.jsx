@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import LiveExchangeRates from '../components/insights/LiveExchangeRates';
 import { motion } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -64,6 +65,8 @@ export default function Insights() {
           </motion.div>
         </div>
       </section>
+
+      <LiveExchangeRates />
 
       {/* Search & Filter */}
       <section className="py-8 bg-secondary/30 border-b border-border">
