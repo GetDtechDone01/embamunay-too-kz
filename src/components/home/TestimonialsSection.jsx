@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
@@ -68,6 +68,13 @@ export default function TestimonialsSection() {
   const perPage = 3;
   const totalPages = Math.ceil(testimonials.length / perPage);
   const visible = testimonials.slice(current * perPage, current * perPage + perPage);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((c) => (c + 1) % totalPages);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [totalPages]);
 
   return (
     <section className="py-20 bg-secondary/30">
