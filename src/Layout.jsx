@@ -4,6 +4,7 @@ import { createPageUrl } from '@/utils';
 import Logo from './components/common/Logo';
 import Footer from './components/common/Footer';
 import AIChatWidget from './components/chat/AIChatWidget';
+import ScrollToTop from './components/common/ScrollToTop';
 import { Button } from '@/components/ui/button';
 import { Menu, X, User, LogIn } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
@@ -167,6 +168,7 @@ export default function Layout({ children, currentPageName }) {
 
       {/* AI Chat Widget */}
       <AIChatWidget />
+      <ScrollToTop />
     </div>
   );
 }

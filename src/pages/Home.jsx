@@ -6,6 +6,7 @@ import ServicesPreview from '../components/home/ServicesPreview';
 import MarketDashboard from '../components/home/MarketDashboard';
 import GeographySection from '../components/home/GeographySection';
 import SocialResponsibility from '../components/home/SocialResponsibility';
+import TestimonialsSection from '../components/home/TestimonialsSection';
 import CTASection from '../components/home/CTASection';
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
       <ServicesPreview />
       <GeographySection />
       <SocialResponsibility />
+      <TestimonialsSection />
       <CTASection />
     </div>
   );
