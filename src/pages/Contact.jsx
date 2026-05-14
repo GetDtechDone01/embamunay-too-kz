@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Upload, X } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import ProjectsMap from '../components/contact/ProjectsMap';
 import { base44 } from '@/api/base44Client';
@@ -44,8 +44,6 @@ const budgetOptions = [
 ];
 
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false);
-  const [uploading, setUploading] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
   const [sending, setSending] = useState(false);
   const navigate = useNavigate();
@@ -57,29 +55,11 @@ export default function Contact() {
     budget: '',
     subject: '', 
     message: '',
-    attachment: null
   });
-
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setUploading(true);
-    try {
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
-      setFormData({ ...formData, attachment: { name: file.name, url: file_url } });
-      toast.success('File uploaded successfully!');
-    } catch (error) {
-      toast.error('Failed to upload file');
-    } finally {
-      setUploading(false);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate all required fields
     if (!formData.name || !formData.email || !formData.companyName || !formData.phone || !formData.budget || !formData.subject || !formData.message) {
       toast.error('Please fill in all required fields');
       return;
@@ -87,52 +67,24 @@ export default function Contact() {
     
     setSending(true);
     
-    try {
-      // Save contact submission to database
-      const submissionData = {
-        full_name: formData.name,
-        email: formData.email,
-        company_name: formData.companyName,
-        phone: formData.phone,
-        budget: formData.budget,
-        subject: formData.subject,
-        message: formData.message,
-        attachment_url: formData.attachment?.url || null,
-        status: 'new'
-      };
+    await base44.entities.ContactSubmission.create({
+      full_name: formData.name,
+      email: formData.email,
+      company_name: formData.companyName,
+      phone: formData.phone,
+      budget: formData.budget,
+      subject: formData.subject,
+      message: formData.message,
+      status: 'new'
+    });
 
-      await base44.entities.ContactSubmission.create(submissionData);
-
-      // Send email notifications (don't wait for it to avoid delays)
-      base44.functions.invoke('notifyContactSubmission', { submissionData }).catch(err => {
-        console.error('Failed to send email notification:', err);
-      });
-
-      // Clear form
-      setFormData({ 
-        name: '', 
-        email: '', 
-        companyName: '',
-        phone: '',
-        budget: '',
-        subject: '', 
-        message: '',
-        attachment: null
-      });
-      
-      // Show thank you message
-      setSending(false);
-      setShowThankYou(true);
-      
-      // Redirect to home after 1 minute
-      setTimeout(() => {
-        navigate(createPageUrl('Home'));
-      }, 60000);
-      
-    } catch (error) {
-      toast.error('Failed to send message. Please try again.');
-      setSending(false);
-    }
+    setFormData({ name: '', email: '', companyName: '', phone: '', budget: '', subject: '', message: '' });
+    setSending(false);
+    setShowThankYou(true);
+    
+    setTimeout(() => {
+      navigate(createPageUrl('Home'));
+    }, 60000);
   };
 
   if (showThankYou) {
@@ -152,49 +104,21 @@ export default function Contact() {
           >
             <CheckCircle className="w-12 h-12 text-primary" />
           </motion.div>
-          
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-4xl font-display font-bold text-foreground mb-4"
-          >
+          <h2 className="text-4xl font-display font-bold text-foreground mb-4">
             Thank You for <span className="text-primary">Reaching Out!</span>
-          </motion.h2>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-lg text-muted-foreground mb-6 leading-relaxed"
-          >
+          </h2>
+          <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
             We truly appreciate you taking the time to contact <span className="font-semibold text-foreground">EMBAMUNAY TOO KZ</span>. 
             Your message has been successfully received by our team.
-          </motion.p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="bg-primary/5 border border-primary/20 rounded-2xl p-6 mb-6"
-          >
+          </p>
+          <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6">
             <p className="text-foreground font-medium mb-2">
               Our dedicated team will review your inquiry and get back to you within the shortest possible time.
             </p>
             <p className="text-muted-foreground text-sm">
               You will be automatically redirected to our homepage in a moment.
             </p>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="flex items-center justify-center gap-2 text-sm text-muted-foreground"
-          >
-            <Mail className="w-4 h-4" />
-            <span>Emails sent to: info@embamunaitoo.kz & salesdept@embamunaitoo.kz</span>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     );
@@ -359,46 +283,12 @@ export default function Contact() {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label>Attachment (Optional)</Label>
-                <div className="relative">
-                  <input
-                    type="file"
-                    id="file-upload"
-                    className="hidden"
-                    onChange={handleFileUpload}
-                    disabled={uploading}
-                  />
-                  <label
-                    htmlFor="file-upload"
-                    className="flex items-center justify-center h-12 px-4 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
-                  >
-                    <Upload className="w-5 h-5 mr-2 text-muted-foreground" />
-                    <span className="text-muted-foreground">
-                      {uploading ? 'Uploading...' : formData.attachment ? formData.attachment.name : 'Click to upload file'}
-                    </span>
-                  </label>
-                  {formData.attachment && (
-                    <button
-                      type="button"
-                      onClick={() => setFormData({ ...formData, attachment: null })}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-destructive"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
               <Button
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 rounded-full text-base"
                 disabled={sending}
               >
-                {sending ? (
-                  <>
-                    Sending...
-                  </>
-                ) : (
+                {sending ? 'Sending...' : (
                   <>
                     <Send className="w-5 h-5 mr-2" />
                     Send Message

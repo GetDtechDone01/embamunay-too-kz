@@ -3,11 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import Logo from './components/common/Logo';
 import Footer from './components/common/Footer';
-import AIChatWidget from './components/chat/AIChatWidget';
 import ScrollToTop from './components/common/ScrollToTop';
 import { Button } from '@/components/ui/button';
-import { Menu, X, User, LogIn } from 'lucide-react';
-import { base44 } from '@/api/base44Client';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
@@ -21,25 +19,10 @@ const navLinks = [
 export default function Layout({ children, currentPageName }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const authed = await base44.auth.isAuthenticated();
-      setIsAuthenticated(authed);
-      if (authed) {
-        const me = await base44.auth.me();
-        setUser(me);
-      }
-    };
-    checkAuth();
   }, []);
 
   const isHome = currentPageName === "Home";
@@ -82,25 +65,6 @@ export default function Layout({ children, currentPageName }) {
                   Request Service
                 </Button>
               </Link>
-
-              {isAuthenticated ? (
-                <Link to={createPageUrl('Dashboard')}>
-                  <Button size="sm" variant="outline" className={`rounded-full h-10 px-4 ${isTransparent ? 'border-white/30 text-white hover:bg-white/10 hover:text-white/50' : ''}`}>
-                    <User className="w-4 h-4 mr-2" />
-                    {user?.full_name?.split(' ')[0] || 'Account'}
-                  </Button>
-                </Link>
-              ) : (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => base44.auth.redirectToLogin()}
-                  className={`rounded-full h-10 px-4 ${isTransparent ? 'border-white/30 text-white hover:bg-white/10 hover:text-white/50' : ''}`}
-                >
-                  <LogIn className="w-4 h-4 mr-2" />
-                  Sign In
-                </Button>
-              )}
             </div>
           </nav>
 
@@ -142,16 +106,6 @@ export default function Layout({ children, currentPageName }) {
                     Request Service
                   </Button>
                 </Link>
-                {!isAuthenticated && (
-                  <Button
-                    variant="outline"
-                    className="w-full rounded-full mt-2"
-                    onClick={() => base44.auth.redirectToLogin()}
-                  >
-                    <LogIn className="w-4 h-4 mr-2" />
-                    Sign In
-                  </Button>
-                )}
               </div>
             </motion.div>
           )}
@@ -166,8 +120,6 @@ export default function Layout({ children, currentPageName }) {
       {/* Footer */}
       <Footer />
 
-      {/* AI Chat Widget */}
-      <AIChatWidget />
       <ScrollToTop />
     </div>
   );

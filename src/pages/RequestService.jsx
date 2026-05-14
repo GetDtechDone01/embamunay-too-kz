@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { base44 } from '@/api/base44Client';
-import { Send, CheckCircle, Loader2, LogIn, Paperclip, X } from 'lucide-react';
+import { Send, CheckCircle } from 'lucide-react';
 import Logo from '../components/common/Logo';
 import { toast } from 'sonner';
 
@@ -35,11 +35,8 @@ const budgetRanges = [
 ];
 
 export default function RequestService() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [user, setUser] = useState(null);
   const [form, setForm] = useState({
     full_name: '',
     email: '',
@@ -50,85 +47,19 @@ export default function RequestService() {
     budget_range: '',
     message: '',
   });
-  const [attachments, setAttachments] = useState([]);
-  const fileInputRef = useRef(null);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const authed = await base44.auth.isAuthenticated();
-      setIsAuthenticated(authed);
-      if (authed) {
-        const me = await base44.auth.me();
-        setUser(me);
-        setForm(prev => ({
-          ...prev,
-          full_name: me.full_name || '',
-          email: me.email || '',
-        }));
-      }
-      setLoading(false);
-    };
-    checkAuth();
-  }, []);
-
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setAttachments(prev => [...prev, ...files]);
-    e.target.value = '';
-  };
-
-  const removeAttachment = (index) => {
-    setAttachments(prev => prev.filter((_, i) => i !== index));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    let attachmentUrls = [];
-    for (const file of attachments) {
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
-      attachmentUrls.push(file_url);
+    if (!form.full_name || !form.email || !form.service_type || !form.message) {
+      toast.error('Please fill in all required fields');
+      return;
     }
-    await base44.entities.ServiceRequest.create({ ...form, attachment_urls: attachmentUrls });
+    setSubmitting(true);
+    await base44.entities.ServiceRequest.create(form);
     toast.success('Service request submitted successfully! Our team will contact you soon.');
     setSubmitted(true);
     setSubmitting(false);
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center pt-20">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center pt-20 bg-secondary/30">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-card p-10 rounded-2xl border border-border shadow-xl max-w-md w-full mx-6 text-center"
-        >
-          <div className="flex justify-center mb-6">
-            <Logo size="large" />
-          </div>
-          <h2 className="text-2xl font-display font-bold text-foreground mb-3">Sign In Required</h2>
-          <p className="text-muted-foreground mb-8">
-            Please sign in or create an account to submit a service request. This helps us better serve you.
-          </p>
-          <Button
-            onClick={() => base44.auth.redirectToLogin(window.location.href)}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 rounded-full text-base"
-          >
-            <LogIn className="w-5 h-5 mr-2" />
-            Sign In / Register
-          </Button>
-        </motion.div>
-      </div>
-    );
-  }
 
   if (submitted) {
     return (
@@ -288,49 +219,17 @@ export default function RequestService() {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label>Attachments</Label>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  multiple
-                  accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
-                  className="hidden"
-                />
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full h-12 rounded-xl border-2 border-dashed border-border hover:border-primary/50 flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Paperclip className="w-4 h-4" />
-                  Attach Files or Images (PDF, Word, Excel, Images)
-                </button>
-                {attachments.length > 0 && (
-                  <div className="space-y-1 mt-2">
-                    {attachments.map((file, i) => (
-                      <div key={i} className="flex items-center justify-between bg-secondary rounded-lg px-3 py-2 text-sm">
-                        <span className="text-foreground truncate max-w-xs">{file.name}</span>
-                        <button type="button" onClick={() => removeAttachment(i)} className="ml-2 text-muted-foreground hover:text-destructive flex-shrink-0">
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-13 rounded-full text-base"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 rounded-full text-base"
                 disabled={submitting}
               >
-                {submitting ? (
-                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                ) : (
-                  <Send className="w-5 h-5 mr-2" />
+                {submitting ? 'Submitting...' : (
+                  <>
+                    <Send className="w-5 h-5 mr-2" />
+                    Submit Request
+                  </>
                 )}
-                Submit Request
               </Button>
             </form>
           </div>
