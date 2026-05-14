@@ -1,0 +1,92 @@
+{
+  "name": "Article",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Article title"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly slug"
+    },
+    "excerpt": {
+      "type": "string",
+      "description": "Short summary or excerpt"
+    },
+    "content": {
+      "type": "string",
+      "description": "Full article content (supports markdown)"
+    },
+    "featured_image": {
+      "type": "string",
+      "description": "URL of the featured image"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "industry_news",
+        "technology",
+        "regulations",
+        "market_analysis",
+        "sustainability",
+        "operations"
+      ],
+      "description": "Article category"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Article tags for SEO"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author name"
+    },
+    "published_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Publication date"
+    },
+    "is_published": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the article is published"
+    },
+    "meta_description": {
+      "type": "string",
+      "description": "SEO meta description"
+    },
+    "read_time": {
+      "type": "number",
+      "description": "Estimated read time in minutes"
+    }
+  },
+  "required": [
+    "title",
+    "slug",
+    "excerpt",
+    "content",
+    "category"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
