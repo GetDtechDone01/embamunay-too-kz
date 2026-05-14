@@ -1,0 +1,122 @@
+{
+  "name": "ServiceRequest",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "description": "Full name of the requester"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number"
+    },
+    "company_name": {
+      "type": "string",
+      "description": "Company name"
+    },
+    "service_type": {
+      "type": "string",
+      "enum": [
+        "drilling",
+        "well_services",
+        "refinery",
+        "pipeline",
+        "consultation",
+        "logistics",
+        "other"
+      ],
+      "description": "Type of service requested"
+    },
+    "region": {
+      "type": "string",
+      "enum": [
+        "western_asia",
+        "europe",
+        "south_america"
+      ],
+      "description": "Preferred region"
+    },
+    "message": {
+      "type": "string",
+      "description": "Detailed message about the request"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_review",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending",
+      "description": "Current status of the request"
+    },
+    "budget_range": {
+      "type": "string",
+      "enum": [
+        "under_100k",
+        "100k_500k",
+        "500k_1m",
+        "1m_5m",
+        "above_5m"
+      ],
+      "description": "Budget range for the project"
+    },
+    "attachment_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "URLs of uploaded attachment files"
+    }
+  },
+  "required": [
+    "full_name",
+    "email",
+    "service_type",
+    "message"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
