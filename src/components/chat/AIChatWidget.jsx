@@ -1,158 +1,105 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Loader2, Bot } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { base44 } from '@/api/base44Client';
-import ReactMarkdown from 'react-markdown';
+import { MessageSquare, X, Phone, Mail, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
+
+const FAQ_ITEMS = [
+  {
+    q: "What services do you offer?",
+    a: "We provide Drilling, Well Services, Refinery Operations, Pipeline Construction, Logistics, and Technical Consultation across Western Asia, Europe, and South America."
+  },
+  {
+    q: "How do I request a service?",
+    a: "You can submit a Service Request through our website. Our team will review and respond within 24–48 hours."
+  },
+  {
+    q: "Where are you headquartered?",
+    a: "Our head office is in Atyrau, Kazakhstan. We also have a European office in Novorossiysk, Russia."
+  },
+  {
+    q: "How can I reach your team?",
+    a: "Call us at +7 778 679 5570 or email info@embamunaitoo.kz. We're available Mon–Fri, 9 AM – 6 PM."
+  },
+];
 
 export default function AIChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      role: 'assistant',
-      content: "Welcome to EMBAMUNAI TOO KZ! I'm your AI assistant. I can help you with questions about our oil & gas services, pricing, availability, and connect you with the right department. How can I help you today?"
-    }
-  ]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  const handleSend = async () => {
-    if (!input.trim() || loading) return;
-
-    const userMessage = input.trim();
-    setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-    setLoading(true);
-
-    const conversationHistory = messages.map(m => `${m.role}: ${m.content}`).join('\n');
-
-    const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are the AI customer support assistant for EMBAMUNAI TOO KZ, a leading oil and gas company.
-
-Company Information:
-- Name: EMBAMUNAI TOO KZ
-- Headquarters: Astana, Kazakhstan
-- Operations: Western Asia (Kazakhstan, Uzbekistan, Turkmenistan), Europe (Germany, Poland, Romania), South America (Brazil, Argentina, Colombia)
-- Services: Drilling, Well Services, Refinery Operations, Pipeline Construction & Maintenance, Logistics, Technical Consultation
-- Annual Drilling Volume: 8,500,000+ meters
-- Total Investments: Over $2.5 Billion
-- Employees: 12,000+
-- Certifications: ISO 9001, ISO 45001, ISO 14001
-- Phone: +7 717 2 55 00 00
-- Email: info@embamunai.kz
-
-Previous conversation:
-${conversationHistory}
-
-User's new message: ${userMessage}
-
-Respond helpfully and professionally. If the user wants to request a service, guide them to submit a Service Request form on the website. Keep responses concise and friendly.`,
-    });
-
-    setMessages(prev => [...prev, { role: 'assistant', content: response }]);
-    setLoading(false);
-  };
+  const [openIndex, setOpenIndex] = useState(null);
 
   return (
     <>
-      {/* Chat Button */}
+      {/* Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-2xl flex items-center justify-center hover:scale-105 transition-transform"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-2xl flex items-center justify-center"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        aria-label="Toggle contact widget"
       >
         {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
       </motion.button>
 
-      {/* Chat Window */}
+      {/* Widget Panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-48px)] h-[500px] bg-card rounded-2xl shadow-2xl border border-border flex flex-col overflow-hidden"
+            className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-48px)] bg-card rounded-2xl shadow-2xl border border-border overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-accent text-accent-foreground p-4 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                <Bot className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <div className="font-semibold text-sm">EMBAMUNAI AI Assistant</div>
-                <div className="text-xs text-white/50 flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-green-400" />
-                  Online
-                </div>
-              </div>
+            <div className="bg-accent text-white p-4">
+              <div className="font-semibold text-base">How can we help?</div>
+              <div className="text-white/60 text-xs mt-0.5">Browse common questions or reach us directly</div>
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
-                      msg.role === 'user'
-                        ? 'bg-primary text-primary-foreground rounded-br-md'
-                        : 'bg-secondary text-secondary-foreground rounded-bl-md'
-                    }`}
+            {/* FAQ */}
+            <div className="p-4 space-y-2 max-h-64 overflow-y-auto">
+              {FAQ_ITEMS.map((item, i) => (
+                <div key={i} className="border border-border rounded-xl overflow-hidden">
+                  <button
+                    onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                    className="w-full text-left px-4 py-3 text-sm font-medium text-foreground hover:bg-secondary/50 transition-colors flex items-center justify-between"
                   >
-                    {msg.role === 'assistant' ? (
-                      <ReactMarkdown className="prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&_p]:my-1 [&_a]:text-primary">
-                        {msg.content}
-                      </ReactMarkdown>
-                    ) : (
-                      <p>{msg.content}</p>
+                    <span>{item.q}</span>
+                    <span className="text-primary ml-2 flex-shrink-0">{openIndex === i ? '−' : '+'}</span>
+                  </button>
+                  <AnimatePresence>
+                    {openIndex === i && (
+                      <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: 'auto' }}
+                        exit={{ height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <p className="px-4 pb-3 text-sm text-muted-foreground">{item.a}</p>
+                      </motion.div>
                     )}
-                  </div>
+                  </AnimatePresence>
                 </div>
               ))}
-              {loading && (
-                <div className="flex justify-start">
-                  <div className="bg-secondary rounded-2xl rounded-bl-md px-4 py-3">
-                    <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
             </div>
 
-            {/* Input */}
-            <div className="p-3 border-t border-border">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSend();
-                }}
-                className="flex gap-2"
+            {/* Contact Actions */}
+            <div className="p-4 border-t border-border space-y-2">
+              <Link
+                to={createPageUrl('Contact')}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
               >
-                <Input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Type your message..."
-                  className="flex-1 rounded-full bg-secondary border-0 h-10 text-sm"
-                  disabled={loading}
-                />
-                <Button
-                  type="submit"
-                  size="icon"
-                  disabled={loading || !input.trim()}
-                  className="rounded-full w-10 h-10 bg-primary hover:bg-primary/90"
-                >
-                  <Send className="w-4 h-4" />
-                </Button>
-              </form>
+                <Mail className="w-4 h-4" />
+                Send us a message
+                <ExternalLink className="w-3 h-3 ml-auto opacity-70" />
+              </Link>
+              <a
+                href="tel:+77786795570"
+                className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl bg-secondary text-foreground text-sm font-medium hover:bg-secondary/80 transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                +7 778 679 5570
+              </a>
             </div>
           </motion.div>
         )}
