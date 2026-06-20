@@ -5,10 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { base44 } from '@/api/base44Client';
-import { Send, CheckCircle } from 'lucide-react';
+import { Send } from 'lucide-react';
 import Logo from '../components/common/Logo';
-import { toast } from 'sonner';
 
 const serviceTypes = [
   { value: "drilling", label: "Drilling Services" },
@@ -35,8 +33,6 @@ const budgetRanges = [
 ];
 
 export default function RequestService() {
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     full_name: '',
     email: '',
@@ -48,38 +44,29 @@ export default function RequestService() {
     message: '',
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.full_name || !form.email || !form.service_type || !form.message) {
-      toast.error('Please fill in all required fields');
-      return;
-    }
-    setSubmitting(true);
-    await base44.entities.ServiceRequest.create(form);
-    toast.success('Service request submitted successfully! Our team will contact you soon.');
-    setSubmitted(true);
-    setSubmitting(false);
-  };
 
-  if (submitted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center pt-20 bg-secondary/30">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-card p-10 rounded-2xl border border-border shadow-xl max-w-md w-full mx-6 text-center"
-        >
-          <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-8 h-8 text-green-600" />
-          </div>
-          <h2 className="text-2xl font-display font-bold text-foreground mb-3">Request Submitted!</h2>
-          <p className="text-muted-foreground">
-            Thank you for your interest. Our team will review your request and contact you within 24-48 hours.
-          </p>
-        </motion.div>
-      </div>
-    );
-  }
+    const serviceLabel = serviceTypes.find(s => s.value === form.service_type)?.label || form.service_type;
+    const regionLabel = regions.find(r => r.value === form.region)?.label || form.region;
+    const budgetLabel = budgetRanges.find(b => b.value === form.budget_range)?.label || form.budget_range;
+
+    const body = `Service Request
+
+Full Name: ${form.full_name}
+Email: ${form.email}
+Phone: ${form.phone}
+Company: ${form.company_name}
+Service Type: ${serviceLabel}
+Preferred Region: ${regionLabel}
+Budget Range: ${budgetLabel}
+
+Project Details:
+${form.message}`;
+
+    const mailtoLink = `mailto:info@embamunaitoo.kz?subject=${encodeURIComponent(`Service Request: ${serviceLabel}`)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+  };
 
   return (
     <div className="pt-20">
@@ -222,14 +209,9 @@ export default function RequestService() {
               <Button
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 rounded-full text-base"
-                disabled={submitting}
               >
-                {submitting ? 'Submitting...' : (
-                  <>
-                    <Send className="w-5 h-5 mr-2" />
-                    Submit Request
-                  </>
-                )}
+                <Send className="w-5 h-5 mr-2" />
+                Open Email to Send Request
               </Button>
             </form>
           </div>

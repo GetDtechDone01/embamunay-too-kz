@@ -5,12 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
-import { toast } from 'sonner';
+import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import ProjectsMap from '../components/contact/ProjectsMap';
-import { base44 } from '@/api/base44Client';
-import { useNavigate } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
 
 const offices = [
   {
@@ -44,85 +40,31 @@ const budgetOptions = [
 ];
 
 export default function Contact() {
-  const [showThankYou, setShowThankYou] = useState(false);
-  const [sending, setSending] = useState(false);
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({ 
-    name: '', 
-    email: '', 
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
     companyName: '',
     phone: '',
     budget: '',
-    subject: '', 
+    subject: '',
     message: '',
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (!formData.name || !formData.email || !formData.companyName || !formData.phone || !formData.budget || !formData.subject || !formData.message) {
-      toast.error('Please fill in all required fields');
-      return;
-    }
-    
-    setSending(true);
-    
-    await base44.entities.ContactSubmission.create({
-      full_name: formData.name,
-      email: formData.email,
-      company_name: formData.companyName,
-      phone: formData.phone,
-      budget: formData.budget,
-      subject: formData.subject,
-      message: formData.message,
-      status: 'new'
-    });
 
-    setFormData({ name: '', email: '', companyName: '', phone: '', budget: '', subject: '', message: '' });
-    setSending(false);
-    setShowThankYou(true);
-    
-    setTimeout(() => {
-      navigate(createPageUrl('Home'));
-    }, 60000);
+    const body = `Full Name: ${formData.name}
+Email: ${formData.email}
+Company: ${formData.companyName}
+Phone: ${formData.phone}
+Budget: ${formData.budget}
+
+Message:
+${formData.message}`;
+
+    const mailtoLink = `mailto:info@embamunaitoo.kz?subject=${encodeURIComponent(formData.subject || 'Contact Form Inquiry')}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
   };
-
-  if (showThankYou) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/20 to-background px-6">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-2xl w-full bg-card border border-border rounded-3xl p-12 text-center shadow-2xl"
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6"
-          >
-            <CheckCircle className="w-12 h-12 text-primary" />
-          </motion.div>
-          <h2 className="text-4xl font-display font-bold text-foreground mb-4">
-            Thank You for <span className="text-primary">Reaching Out!</span>
-          </h2>
-          <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-            We truly appreciate you taking the time to contact <span className="font-semibold text-foreground">EMBAMUNAY TOO KZ</span>. 
-            Your message has been successfully received by our team.
-          </p>
-          <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6">
-            <p className="text-foreground font-medium mb-2">
-              Our dedicated team will review your inquiry and get back to you within the shortest possible time.
-            </p>
-            <p className="text-muted-foreground text-sm">
-              You will be automatically redirected to our homepage in a moment.
-            </p>
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
 
   return (
     <div className="pt-20">
@@ -196,7 +138,7 @@ export default function Contact() {
               <h2 className="text-3xl font-display font-bold text-foreground">
                 Send Us a <span className="text-primary">Message</span>
               </h2>
-              <p className="text-muted-foreground mt-2">We'll respond within 24 hours</p>
+              <p className="text-muted-foreground mt-2">Fill out the form and your email client will open with the message ready to send.</p>
             </div>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid md:grid-cols-2 gap-5">
@@ -222,7 +164,7 @@ export default function Contact() {
                   />
                 </div>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-5">
                 <div className="space-y-2">
                   <Label>Company Name</Label>
@@ -249,7 +191,7 @@ export default function Contact() {
 
               <div className="space-y-2">
                 <Label>Budget</Label>
-                <Select value={formData.budget} onValueChange={(value) => setFormData({ ...formData, budget: value })} required>
+                <Select value={formData.budget} onValueChange={(value) => setFormData({ ...formData, budget: value })}>
                   <SelectTrigger className="h-12 rounded-xl">
                     <SelectValue placeholder="Select your budget range" />
                   </SelectTrigger>
@@ -271,7 +213,7 @@ export default function Contact() {
                   className="h-12 rounded-xl"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label>Message</Label>
                 <Textarea
@@ -286,14 +228,9 @@ export default function Contact() {
               <Button
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 rounded-full text-base"
-                disabled={sending}
               >
-                {sending ? 'Sending...' : (
-                  <>
-                    <Send className="w-5 h-5 mr-2" />
-                    Send Message
-                  </>
-                )}
+                <Send className="w-5 h-5 mr-2" />
+                Open Email to Send
               </Button>
             </form>
           </div>
