@@ -7,11 +7,13 @@ import GeographySection from '../components/home/GeographySection';
 import SocialResponsibility from '../components/home/SocialResponsibility';
 import TestimonialsSection from '../components/home/TestimonialsSection';
 import CTASection from '../components/home/CTASection';
+import LiveExchangeRates from '../components/insights/LiveExchangeRates';
 
 export default function Home() {
   return (
     <div>
       <HeroSection />
+      <LiveExchangeRates />
       <AboutPreview />
       <ProductsSection />
       <ServicesPreview />
