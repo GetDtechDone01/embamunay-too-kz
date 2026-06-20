@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import LiveExchangeRates from '../components/insights/LiveExchangeRates';
 import { motion } from 'framer-motion';
-import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, Clock, Search, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
-import { format } from 'date-fns';
 
 const categories = [
   { value: "all", label: "All Articles" },
@@ -20,16 +16,80 @@ const categories = [
   { value: "operations", label: "Operations" },
 ];
 
+const STATIC_ARTICLES = [
+  {
+    id: "1",
+    title: "Kazakhstan's Oil and Gas Sector: Growth and Investment Outlook 2024",
+    excerpt: "Kazakhstan continues to attract major international investment in its vast hydrocarbon reserves, with new developments in the Kashagan and Tengiz fields driving record output projections.",
+    featured_image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&q=80",
+    category: "industry_news",
+    published_date: "2024-03-15",
+    read_time: 7,
+    author: "EMBAMUNAY Editorial",
+    content: `Kazakhstan's oil and gas sector is experiencing a period of significant growth, driven by continued investment in major fields such as Kashagan, Tengiz, and Karachaganak. The country's strategic location and vast reserves position it as a key player in global energy markets.\n\nThe Tengizchevroil Future Growth Project, nearing completion, is expected to add 260,000 barrels per day to Kazakhstan's output, bringing total production from the Tengiz field to approximately 850,000 barrels per day.\n\nForeign direct investment remains robust, with international oil companies committed to long-term partnerships with KazMunayGas, the state energy company. These partnerships are critical for transferring technology and expertise to Kazakhstan's growing domestic workforce.\n\nThe government's ambitious energy strategy aims to increase oil production to 100 million tonnes per year by 2025, while simultaneously expanding refining capacity to meet both domestic demand and export targets.`
+  },
+  {
+    id: "2",
+    title: "Advanced Refinery Technologies Reshaping Central Asian Energy",
+    excerpt: "Modern refining processes and digitalization are transforming how Central Asian refineries operate, boosting efficiency and reducing environmental impact across the region.",
+    featured_image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?w=800&q=80",
+    category: "technology",
+    published_date: "2024-02-28",
+    read_time: 5,
+    author: "EMBAMUNAY Editorial",
+    content: `The adoption of advanced refinery technologies is rapidly transforming operations across Central Asia. From predictive maintenance systems powered by artificial intelligence to advanced catalytic cracking units, refineries in the region are modernizing at an unprecedented pace.\n\nDigital twin technology, which creates virtual replicas of physical refinery processes, allows operators to simulate and optimize operations without risking actual production. This technology alone has demonstrated efficiency gains of up to 15% in pilot programs.\n\nEnvironmental compliance is also driving technological investment. New hydrotreating units reduce sulfur content in refined products, enabling refineries to meet increasingly stringent international fuel quality standards and access premium export markets.`
+  },
+  {
+    id: "3",
+    title: "New Environmental Regulations Impacting Oil Operations in Kazakhstan",
+    excerpt: "Kazakhstan's updated environmental framework introduces stricter emissions standards and flaring reduction targets, requiring operators to adapt their practices and invest in cleaner technologies.",
+    featured_image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80",
+    category: "regulations",
+    published_date: "2024-02-10",
+    read_time: 6,
+    author: "EMBAMUNAY Editorial",
+    content: `Kazakhstan has introduced a comprehensive update to its environmental regulatory framework governing hydrocarbon extraction and refining. The new regulations, set to be fully enforced by 2025, represent the most significant overhaul of environmental standards in the country's post-independence history.\n\nKey provisions include a 30% reduction in associated gas flaring by 2025, mandatory carbon emissions reporting for all oil and gas operations, stricter wastewater treatment standards, and enhanced requirements for environmental impact assessments.\n\nCompanies operating in Kazakhstan are investing heavily in compliance infrastructure. Gas utilization projects, which capture and process previously flared gas, are attracting significant capital as operators seek to meet the new targets while also monetizing a previously wasted resource.`
+  },
+  {
+    id: "4",
+    title: "Global Crude Oil Market Analysis: Trends Affecting Central Asian Exports",
+    excerpt: "An in-depth look at how shifting global demand patterns, OPEC+ decisions, and geopolitical developments are influencing crude oil pricing and export volumes from Kazakhstan.",
+    featured_image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80",
+    category: "market_analysis",
+    published_date: "2024-01-20",
+    read_time: 8,
+    author: "EMBAMUNAY Editorial",
+    content: `Global crude oil markets continue to navigate a complex landscape of competing forces. For Central Asian exporters like Kazakhstan, understanding these dynamics is critical for planning production, logistics, and commercial strategy.\n\nKazakhstan exports the majority of its crude through the Caspian Pipeline Consortium (CPC) route to the Black Sea port of Novorossiysk. This route has faced periodic disruptions, underscoring the importance of export route diversification, including the Trans-Caspian route and Chinese pipeline connections.\n\nOPEC+ production management policies directly influence the price environment in which Kazakhstan's crude is sold. As a non-OPEC member that cooperates with the agreement, Kazakhstan must balance its production targets with its domestic industry's development needs.\n\nDemand forecasts from major energy agencies suggest continued strong demand for Kazakh crude grades in European and Asian markets through 2030, providing a favorable backdrop for investment in production capacity.`
+  },
+  {
+    id: "5",
+    title: "EMBAMUNAY's Commitment to Sustainable Oil Field Operations",
+    excerpt: "How EMBAMUNAY TOO is implementing environmental best practices and sustainability initiatives across its operations in the Atyrau region of Kazakhstan.",
+    featured_image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
+    category: "sustainability",
+    published_date: "2024-01-05",
+    read_time: 4,
+    author: "EMBAMUNAY Editorial",
+    content: `At EMBAMUNAY TOO, sustainability is not an afterthought but a core operational principle. Our commitment to responsible resource extraction guides every decision, from field development planning to day-to-day production management.\n\nOur environmental management system, certified to ISO 14001 standards, provides the framework for identifying, managing, and minimizing our environmental footprint. Regular audits ensure that our practices meet both regulatory requirements and our own internal standards.\n\nWater management is a particular focus in the arid Atyrau region. We have implemented closed-loop water recycling systems that significantly reduce freshwater consumption and minimize produced water disposal challenges.\n\nCommunity engagement is also central to our sustainability approach. We work closely with local communities in the areas where we operate, ensuring that our presence brings tangible economic and social benefits beyond direct employment.`
+  },
+  {
+    id: "6",
+    title: "Pipeline Infrastructure Development: Connecting Caspian Resources to World Markets",
+    excerpt: "An overview of the pipeline networks that connect Kazakhstan's prolific oil fields to global markets, and the ongoing projects to expand and diversify export capacity.",
+    featured_image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+    category: "operations",
+    published_date: "2023-12-15",
+    read_time: 6,
+    author: "EMBAMUNAY Editorial",
+    content: `Kazakhstan's landlocked geography makes pipeline infrastructure a strategic national priority. The country's ability to monetize its vast hydrocarbon resources depends critically on reliable, diverse, and high-capacity export routes.\n\nThe Caspian Pipeline Consortium (CPC) remains the primary export artery, with a capacity of approximately 80 million tonnes per year. Recent expansion works have added pumping stations that increase throughput capacity and improve operational reliability.\n\nThe Kazakhstan-China pipeline system provides an important alternative route, with capacity to transport approximately 20 million tonnes of crude per year to refineries in western China. This route's strategic value has grown in recent years as Chinese demand for Central Asian crude has increased.\n\nFuture infrastructure development is focused on the Trans-Caspian route, which would connect Kazakh production to the Baku-Tbilisi-Ceyhan pipeline and access Mediterranean markets. Significant regulatory and technical work is underway to advance this strategically important project.`
+  },
+];
+
 export default function Insights() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const { data: articles = [], isLoading } = useQuery({
-    queryKey: ['articles'],
-    queryFn: () => base44.entities.Article.filter({ is_published: true }, '-published_date'),
-  });
-
-  const filteredArticles = articles.filter(article => {
+  const filteredArticles = STATIC_ARTICLES.filter(article => {
     const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          article.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || article.category === selectedCategory;
@@ -103,9 +163,7 @@ export default function Insights() {
       {/* Articles */}
       <section className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          {isLoading ? (
-            <div className="text-center py-20 text-muted-foreground">Loading articles...</div>
-          ) : filteredArticles.length === 0 ? (
+          {filteredArticles.length === 0 ? (
             <div className="text-center py-20">
               <h3 className="text-2xl font-bold text-foreground mb-2">No articles found</h3>
               <p className="text-muted-foreground">Try adjusting your search or filter criteria</p>
@@ -122,7 +180,7 @@ export default function Insights() {
                   <Link to={`/ArticleDetail/${featuredArticle.id}`}>
                     <div className="relative h-[450px] rounded-2xl overflow-hidden group cursor-pointer">
                       <img
-                        src={featuredArticle.featured_image || 'https://images.unsplash.com/photo-1560969184-10fe8719e047?w=1200&q=80'}
+                        src={featuredArticle.featured_image}
                         alt={featuredArticle.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -134,18 +192,14 @@ export default function Insights() {
                         </h2>
                         <p className="text-white/80 mb-4 line-clamp-2">{featuredArticle.excerpt}</p>
                         <div className="flex items-center gap-4 text-white/60 text-sm">
-                          {featuredArticle.published_date && (
-                            <div className="flex items-center gap-2">
-                              <Calendar className="w-4 h-4" />
-                              {format(new Date(featuredArticle.published_date), 'MMM dd, yyyy')}
-                            </div>
-                          )}
-                          {featuredArticle.read_time && (
-                            <div className="flex items-center gap-2">
-                              <Clock className="w-4 h-4" />
-                              {featuredArticle.read_time} min read
-                            </div>
-                          )}
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            {featuredArticle.published_date}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4" />
+                            {featuredArticle.read_time} min read
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -167,7 +221,7 @@ export default function Insights() {
                       <div className="bg-card rounded-2xl border border-border overflow-hidden group cursor-pointer hover:shadow-lg transition-all">
                         <div className="relative h-48 overflow-hidden">
                           <img
-                            src={article.featured_image || 'https://images.unsplash.com/photo-1560969184-10fe8719e047?w=600&q=80'}
+                            src={article.featured_image}
                             alt={article.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
@@ -181,18 +235,14 @@ export default function Insights() {
                           </h3>
                           <p className="text-muted-foreground text-sm mb-4 line-clamp-3">{article.excerpt}</p>
                           <div className="flex items-center gap-4 text-muted-foreground text-xs">
-                            {article.published_date && (
-                              <div className="flex items-center gap-1">
-                                <Calendar className="w-3 h-3" />
-                                {format(new Date(article.published_date), 'MMM dd, yyyy')}
-                              </div>
-                            )}
-                            {article.read_time && (
-                              <div className="flex items-center gap-1">
-                                <Clock className="w-3 h-3" />
-                                {article.read_time} min
-                              </div>
-                            )}
+                            <div className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              {article.published_date}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              {article.read_time} min
+                            </div>
                           </div>
                         </div>
                       </div>
